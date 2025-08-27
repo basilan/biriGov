@@ -28,21 +28,33 @@ class AIService:
     """
 
     def __init__(self):
-        self.openai_client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
-        self.nvidia_base_url = settings.NVIDIA_API_BASE_URL
-        self.nvidia_api_key = settings.NVIDIA_API_KEY
-        self.http_client = httpx.AsyncClient(timeout=120.0)
+        self.use_mock_ai = settings.USE_MOCK_AI
+        self.mock_realistic_delays = settings.MOCK_AI_REALISTIC_DELAYS
+        
+        if not self.use_mock_ai:
+            self.openai_client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+            self.nvidia_base_url = settings.NVIDIA_API_BASE_URL
+            self.nvidia_api_key = settings.NVIDIA_API_KEY
+            self.http_client = httpx.AsyncClient(timeout=120.0)
+        else:
+            # Mock mode - no actual API clients needed
+            self.openai_client = None
+            self.http_client = None
+            logger.info("AI Service initialized in MOCK mode - no API calls will be made")
 
     @handle_errors
     @audit_trail("OPENAI_MEDICAL_REASONING")
     @track_api_cost("openai")
     async def get_medical_reasoning(self, claim: HealthcareClaim) -> Tuple[str, float, ValidationStatus]:
         """
-        Generate medical necessity reasoning using OpenAI GPT-4
+        Generate medical necessity reasoning using OpenAI GPT-4 or realistic mocks
         
         Returns:
             Tuple of (reasoning_text, confidence_score, validation_status)
         """
+        if self.use_mock_ai:
+            return await self._get_mock_medical_reasoning(claim)
+            
         try:
             # Construct healthcare-specific prompt
             prompt = self._build_medical_prompt(claim)
@@ -91,11 +103,14 @@ class AIService:
     @track_api_cost("nvidia")
     async def validate_compliance(self, claim: HealthcareClaim, reasoning: str) -> List[ComplianceCheck]:
         """
-        Validate healthcare compliance using NVIDIA AI Enterprise
+        Validate healthcare compliance using NVIDIA AI Enterprise or realistic mocks
         
         Returns:
             List of compliance check results
         """
+        if self.use_mock_ai:
+            return await self._get_mock_compliance_checks(claim)
+            
         try:
             compliance_checks = []
             
@@ -269,6 +284,206 @@ class AIService:
             )
         ]
 
+    async def _get_mock_medical_reasoning(self, claim: HealthcareClaim) -> Tuple[str, float, ValidationStatus]:
+        """Generate realistic mock medical reasoning for Phase 1 steel-thread"""
+        import random
+        
+        # Simulate realistic API delay
+        if self.mock_realistic_delays:
+            await asyncio.sleep(random.uniform(0.8, 2.2))
+        
+        # Select scenario based on claim characteristics
+        scenario = self._select_mock_scenario(claim)
+        
+        # Generate reasoning text
+        reasoning = scenario['reasoning'].format(
+            procedure_code=claim.procedure_code,
+            diagnosis_code=claim.diagnosis_code,
+            claim_amount=claim.claim_amount,
+            medical_context=claim.medical_necessity_context or "Standard clinical presentation"
+        )
+        
+        logger.info(
+            "Mock OpenAI reasoning generated",
+            extra={
+                "claim_id": claim.claim_id,
+                "mock_scenario": scenario['name'],
+                "confidence_score": scenario['confidence'],
+                "validation_status": scenario['status']
+            }
+        )
+        
+        return reasoning, scenario['confidence'], ValidationStatus(scenario['status'])
+
+    async def _get_mock_compliance_checks(self, claim: HealthcareClaim) -> List[ComplianceCheck]:
+        """Generate realistic mock compliance checks for Phase 1 steel-thread"""
+        import random
+        
+        # Simulate realistic API delay
+        if self.mock_realistic_delays:
+            await asyncio.sleep(random.uniform(1.2, 2.8))
+            
+        scenario = self._select_mock_scenario(claim)
+        checks = []
+        
+        # HIPAA Privacy Check (almost always passes for demo data)
+        checks.append(ComplianceCheck(
+            check_type="HIPAA_PRIVACY",
+            passed=True,
+            details="Demo data properly de-identified per HIPAA Safe Harbor provisions. No PHI detected.",
+            regulatory_framework="HIPAA"
+        ))
+        
+        # Medical Necessity Check
+        necessity_passed = scenario['compliance_score'] >= 70
+        checks.append(ComplianceCheck(
+            check_type="MEDICAL_NECESSITY",
+            passed=necessity_passed,
+            details=f"Medical necessity {'clearly established' if necessity_passed else 'requires additional documentation'} based on clinical guidelines and diagnosis code {claim.diagnosis_code}.",
+            regulatory_framework="CMS"
+        ))
+        
+        # CMS Guidelines Check
+        cms_passed = scenario['compliance_score'] >= 65
+        checks.append(ComplianceCheck(
+            check_type="CMS_GUIDELINES",
+            passed=cms_passed,
+            details=f"Procedure {claim.procedure_code} {'meets' if cms_passed else 'requires review against'} current CMS National Coverage Determination (NCD) criteria.",
+            regulatory_framework="CMS"
+        ))
+        
+        logger.info(
+            "Mock NVIDIA compliance checks generated",
+            extra={
+                "claim_id": claim.claim_id,
+                "mock_scenario": scenario['name'],
+                "checks_passed": sum(1 for check in checks if check.passed),
+                "total_checks": len(checks)
+            }
+        )
+        
+        return checks
+
+    def _select_mock_scenario(self, claim: HealthcareClaim) -> dict:
+        """Select realistic mock scenario based on claim characteristics"""
+        scenarios = [
+            {
+                'name': 'Routine Preventive Care - Approved',
+                'status': 'approved',
+                'confidence': 88.0,
+                'compliance_score': 92,
+                'reasoning': """PREVENTIVE CARE MEDICAL NECESSITY ANALYSIS
+
+CLINICAL ASSESSMENT:
+Procedure {procedure_code} for diagnosis {diagnosis_code} represents evidence-based preventive care intervention.
+
+Clinical Context: {medical_context}
+
+MEDICAL APPROPRIATENESS:
+✓ Procedure aligns with USPSTF Grade A/B recommendations  
+✓ Patient age and risk factors support intervention timing
+✓ Cost-effective approach to disease prevention
+✓ Follows evidence-based clinical guidelines
+
+COST-EFFECTIVENESS:
+Preventive intervention cost of ${claim_amount} demonstrates excellent value proposition compared to treating advanced disease states. Early intervention prevents costlier downstream complications.
+
+RECOMMENDATION: APPROVED
+CONFIDENCE: 88%
+
+This preventive care service meets all clinical appropriateness and cost-effectiveness criteria."""
+            },
+            {
+                'name': 'Complex Surgery - Approved',
+                'status': 'approved', 
+                'confidence': 82.0,
+                'compliance_score': 85,
+                'reasoning': """COMPLEX SURGICAL PROCEDURE ANALYSIS
+
+CLINICAL ASSESSMENT:
+Procedure {procedure_code} for diagnosis {diagnosis_code} represents medically necessary surgical intervention.
+
+Clinical Context: {medical_context}
+
+SURGICAL NECESSITY:
+✓ Conservative treatments attempted or contraindicated
+✓ Procedure is appropriate first-line surgical treatment  
+✓ Expected clinical outcomes justify surgical risks
+✓ Timing of intervention is clinically appropriate
+
+COST ANALYSIS:
+Surgical cost of ${claim_amount} is within acceptable range for this procedure complexity. Early surgical intervention may prevent emergency complications requiring costlier intensive care.
+
+RECOMMENDATION: APPROVED  
+CONFIDENCE: 82%
+
+This surgical procedure demonstrates clear medical necessity and appropriate clinical decision-making."""
+            },
+            {
+                'name': 'Experimental Treatment - Review Required',
+                'status': 'requires_human_review',
+                'confidence': 45.0,
+                'compliance_score': 55,
+                'reasoning': """INVESTIGATIONAL TREATMENT REVIEW
+
+CLINICAL ASSESSMENT:
+Procedure {procedure_code} for diagnosis {diagnosis_code} requires peer review evaluation.
+
+Clinical Context: {medical_context}
+
+REVIEW CRITERIA:
+⚠ Limited evidence base for this specific indication
+⚠ Alternative standard treatments should be considered first
+⚠ Cost-effectiveness analysis needed (${claim_amount})
+⚠ Long-term outcomes data incomplete
+
+REGULATORY STATUS:
+This procedure may be considered investigational for the stated diagnosis. Additional clinical documentation and peer review recommended before approval.
+
+RECOMMENDATION: REQUIRES HUMAN REVIEW
+CONFIDENCE: 45%
+
+Clinical reviewer should evaluate appropriateness against current evidence-based guidelines."""
+            },
+            {
+                'name': 'High-Cost Denied - Insufficient Justification',
+                'status': 'denied',
+                'confidence': 75.0,
+                'compliance_score': 25,
+                'reasoning': """MEDICAL NECESSITY DENIAL
+
+CLINICAL ASSESSMENT:
+Procedure {procedure_code} for diagnosis {diagnosis_code} lacks sufficient clinical justification.
+
+Clinical Context: {medical_context}
+
+DENIAL RATIONALE:
+✗ Clinical documentation insufficient to establish medical necessity
+✗ Alternative, less costly interventions not adequately attempted  
+✗ Procedure not first-line treatment per clinical guidelines
+✗ Cost of ${claim_amount} not justified by clinical benefit ratio
+
+ALTERNATIVE RECOMMENDATIONS:
+Conservative treatment approaches should be attempted before considering this intervention. Additional clinical documentation required to support medical necessity.
+
+RECOMMENDATION: DENIED
+CONFIDENCE: 75%
+
+Please submit additional clinical documentation or consider alternative treatment approaches."""
+            }
+        ]
+        
+        # Select based on claim characteristics
+        if claim.claim_amount > 10000:
+            return scenarios[2] if claim.claim_amount > 20000 else scenarios[1]
+        elif claim.priority.value == 'urgent':
+            return scenarios[1] 
+        else:
+            return scenarios[0] if claim.claim_amount < 5000 else scenarios[3]
+
     async def close(self):
         """Close HTTP client connections"""
-        await self.http_client.aclose()
+        if self.http_client:
+            await self.http_client.aclose()
+        else:
+            logger.info("Mock AI service closed - no connections to clean up")

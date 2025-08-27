@@ -19,8 +19,12 @@ class Settings(BaseSettings):
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
     
+    # AI Configuration - Mock Mode for Steel-Thread Phase 1
+    USE_MOCK_AI: bool = False
+    MOCK_AI_REALISTIC_DELAYS: bool = True
+    
     # OpenAI Configuration
-    OPENAI_API_KEY: str
+    OPENAI_API_KEY: Optional[str] = "sk-mock-key-for-development"
     OPENAI_MODEL: str = "gpt-4"
     OPENAI_FALLBACK_MODEL: str = "gpt-3.5-turbo" 
     OPENAI_MAX_TOKENS: int = 1000
@@ -75,10 +79,14 @@ class Settings(BaseSettings):
         case_sensitive = True
     
     @validator('OPENAI_API_KEY')
-    def validate_openai_key(cls, v):
-        """Ensure OpenAI API key is provided and properly formatted"""
+    def validate_openai_key(cls, v, values):
+        """Ensure OpenAI API key is provided and properly formatted (unless using mocks)"""
+        use_mock = values.get('USE_MOCK_AI', False)
+        if use_mock:
+            return v or "sk-mock-key-for-development"
+            
         if not v:
-            raise ValueError('OPENAI_API_KEY is required')
+            raise ValueError('OPENAI_API_KEY is required when USE_MOCK_AI=False')
         if not v.startswith('sk-'):
             raise ValueError('OPENAI_API_KEY must start with sk-')
         if len(v) < 20:
