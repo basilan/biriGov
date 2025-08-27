@@ -1,97 +1,70 @@
 # Healthcare AI Governance Agent - Terraform Outputs
-# Output values for integration with application deployment
+# Infrastructure endpoints and identifiers for frontend integration
 
+# Lambda Function Outputs
 output "lambda_function_arn" {
-  description = "ARN of the claims validator Lambda function"
-  value       = module.claims_validator_lambda.function_arn
+  description = "ARN of the claims validation Lambda function"
+  value       = aws_lambda_function.claims_validator.arn
 }
 
 output "lambda_function_name" {
-  description = "Name of the claims validator Lambda function"
-  value       = module.claims_validator_lambda.function_name
+  description = "Name of the claims validation Lambda function"
+  value       = aws_lambda_function.claims_validator.function_name
 }
 
-output "lambda_function_url" {
-  description = "Function URL for direct Lambda invocation (if enabled)"
-  value       = module.claims_validator_lambda.function_url
-  sensitive   = false
-}
-
+# API Gateway Outputs
 output "api_gateway_url" {
-  description = "Base URL of the API Gateway for frontend integration"
-  value       = module.api_gateway.api_gateway_url
+  description = "Base URL of the API Gateway"
+  value       = aws_api_gateway_rest_api.claims_api.execution_arn
 }
 
 output "api_gateway_stage_url" {
-  description = "Full stage URL of the API Gateway"
-  value       = module.api_gateway.stage_url
+  description = "Deployed stage URL for API Gateway"
+  value       = "https://${aws_api_gateway_rest_api.claims_api.id}.execute-api.${data.aws_region.current.name}.amazonaws.com/${aws_api_gateway_deployment.claims_deployment.stage_name}"
 }
 
 output "api_gateway_execution_arn" {
-  description = "Execution ARN of the API Gateway"
-  value       = module.api_gateway.execution_arn
+  description = "Execution ARN for API Gateway"
+  value       = aws_api_gateway_rest_api.claims_api.execution_arn
 }
 
+# S3 Bucket Outputs
 output "s3_bucket_name" {
-  description = "Name of the S3 bucket for frontend hosting and document storage"
-  value       = module.s3_storage.bucket_name
+  description = "Name of the S3 storage bucket"
+  value       = aws_s3_bucket.storage_bucket.id
 }
 
 output "s3_bucket_arn" {
-  description = "ARN of the S3 bucket"
-  value       = module.s3_storage.bucket_arn
+  description = "ARN of the S3 storage bucket"
+  value       = aws_s3_bucket.storage_bucket.arn
 }
 
 output "s3_bucket_domain_name" {
-  description = "Domain name of the S3 bucket for static website hosting"
-  value       = module.s3_storage.bucket_domain_name
+  description = "Domain name of the S3 bucket"
+  value       = aws_s3_bucket.storage_bucket.bucket_domain_name
 }
 
-output "s3_bucket_website_endpoint" {
-  description = "Website endpoint of the S3 bucket"
-  value       = module.s3_storage.website_endpoint
-}
-
-output "cloudfront_domain_name" {
-  description = "Domain name of the CloudFront distribution"
-  value       = module.cloudfront_distribution.domain_name
-}
-
-output "cloudfront_distribution_id" {
-  description = "ID of the CloudFront distribution for cache invalidation"
-  value       = module.cloudfront_distribution.distribution_id
-}
-
-output "cloudfront_hosted_zone_id" {
-  description = "Hosted zone ID of the CloudFront distribution for Route53 integration"
-  value       = module.cloudfront_distribution.hosted_zone_id
-}
-
+# DynamoDB Table Outputs
 output "dynamodb_table_name" {
-  description = "Name of the DynamoDB table for claims storage"
-  value       = module.dynamodb_claims_table.table_name
+  description = "Name of the DynamoDB claims table"
+  value       = aws_dynamodb_table.claims_table.name
 }
 
 output "dynamodb_table_arn" {
-  description = "ARN of the DynamoDB table"
-  value       = module.dynamodb_claims_table.table_arn
+  description = "ARN of the DynamoDB claims table"
+  value       = aws_dynamodb_table.claims_table.arn
 }
 
-output "dynamodb_table_stream_arn" {
-  description = "ARN of the DynamoDB table stream (if enabled)"
-  value       = module.dynamodb_claims_table.stream_arn
-}
+# Cost monitoring outputs - temporarily disabled
+# output "budget_name" {
+#   description = "Name of the AWS Budget for cost monitoring"
+#   value       = aws_budgets_budget.demo_cost_alert.name
+# }
 
-# Cost monitoring outputs
-output "budget_name" {
-  description = "Name of the AWS Budget for cost monitoring"
-  value       = aws_budgets_budget.demo_cost_alert.name
-}
-
-output "budget_limit" {
-  description = "Budget limit amount in USD"
-  value       = aws_budgets_budget.demo_cost_alert.limit_amount
-}
+# output "budget_limit" {
+#   description = "Budget limit amount in USD"
+#   value       = aws_budgets_budget.demo_cost_alert.limit_amount
+# }
 
 # Environment configuration outputs
 output "aws_region" {
@@ -104,28 +77,27 @@ output "environment" {
   value       = var.environment
 }
 
-# Integration endpoints for frontend configuration
+# Frontend Configuration Output
 output "frontend_config" {
-  description = "Configuration object for frontend integration"
+  description = "Configuration values for frontend deployment"
   value = {
-    api_base_url    = module.api_gateway.api_gateway_url
-    cloudfront_url  = "https://${module.cloudfront_distribution.domain_name}"
-    aws_region      = var.aws_region
+    api_base_url    = "https://${aws_api_gateway_rest_api.claims_api.id}.execute-api.${data.aws_region.current.name}.amazonaws.com/${aws_api_gateway_deployment.claims_deployment.stage_name}"
+    aws_region      = data.aws_region.current.name
+    bucket_name     = aws_s3_bucket.storage_bucket.id
     environment     = var.environment
+    cost_limit      = var.cost_budget_limit
   }
-  sensitive = false
 }
 
-# Deployment validation outputs
+# Deployment Information
 output "deployment_info" {
-  description = "Deployment information for validation and troubleshooting"
+  description = "Key deployment information"
   value = {
-    deployed_at     = timestamp()
-    terraform_version = "1.5.7"
-    aws_region      = var.aws_region
-    environment     = var.environment
-    auto_cleanup_at = local.cleanup_timestamp
-    cost_budget     = var.cost_budget_limit
+    project_name     = local.project_name
+    aws_region       = data.aws_region.current.name
+    aws_account_id   = data.aws_caller_identity.current.account_id
+    deployment_time  = timestamp()
+    cleanup_days     = var.auto_cleanup_days
+    environment      = var.environment
   }
-  sensitive = false
 }
