@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/healthcare-ai-favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Healthcare AI Governance Agent</title>
+    <meta name="description" content="AI-powered healthcare claims validation with executive dashboard for cost reduction demonstration" />
+    
+    <!-- Healthcare professional styling -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Executive presentation meta tags -->
+    <meta name="theme-color" content="#0ea5e9" />
+    <meta name="msapplication-TileColor" content="#0ea5e9" />
+    <meta name="application-name" content="Healthcare AI Governance" />
+    
+    <!-- Security headers for healthcare compliance -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+    <meta http-equiv="X-Frame-Options" content="DENY" />
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block" />
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="/src/main.tsx" as="script" type="module" />
+  </head>
+  <body class="bg-clinical-50 text-clinical-900 font-medical">
+    <div id="root" class="min-h-screen"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Healthcare compliance and version info -->
+    <script>
+      window.__HEALTHCARE_AI_VERSION__ = '__APP_VERSION__';
+      window.__HEALTHCARE_AI_BUILD__ = new Date().toISOString();
+    </script>
+  </body>
+</html>

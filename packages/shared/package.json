@@ -1,0 +1,33 @@
+{
+  "name": "@healthcare-ai/shared",
+  "version": "1.0.0",
+  "description": "Shared types, utilities, and constants for Healthcare AI Governance Agent",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "lint": "eslint src --ext .ts",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "3.22.2"
+  },
+  "devDependencies": {
+    "@types/node": "18.17.1",
+    "@typescript-eslint/eslint-plugin": "6.4.0",
+    "@typescript-eslint/parser": "6.4.0",
+    "eslint": "8.47.0",
+    "typescript": "5.2.2",
+    "vitest": "0.34.2"
+  },
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types/index.js",
+    "./constants": "./dist/constants/index.js",
+    "./utils": "./dist/utils/index.js",
+    "./test-data": "./dist/test-data/index.js"
+  }
+}

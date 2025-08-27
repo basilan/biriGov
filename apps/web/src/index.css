@@ -1,0 +1,302 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Healthcare AI Governance Agent - Global Styles */
+
+/* Healthcare professional base styles */
+@layer base {
+  * {
+    @apply border-clinical-200;
+  }
+  
+  html {
+    @apply antialiased;
+  }
+  
+  body {
+    @apply bg-clinical-50 text-clinical-900 font-medical;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variation-settings: 'opsz' 32;
+  }
+
+  /* Executive presentation typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  h1 {
+    @apply text-3xl md:text-4xl text-clinical-900;
+  }
+
+  h2 {
+    @apply text-2xl md:text-3xl text-clinical-800;
+  }
+
+  h3 {
+    @apply text-xl md:text-2xl text-clinical-800;
+  }
+
+  h4 {
+    @apply text-lg md:text-xl text-clinical-700;
+  }
+
+  /* Healthcare form inputs */
+  input, textarea, select {
+    @apply border-clinical-300 rounded-lg px-3 py-2 text-clinical-900 placeholder-clinical-400;
+    @apply focus:border-medical-500 focus:ring-2 focus:ring-medical-500/20 focus:outline-none;
+    @apply transition-colors duration-200;
+  }
+
+  /* Healthcare buttons */
+  button {
+    @apply transition-all duration-200 font-medium rounded-lg;
+  }
+
+  /* Accessibility improvements for healthcare professionals */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-medical-500;
+  }
+
+  /* High contrast for medical data readability */
+  .high-contrast {
+    @apply text-clinical-900 bg-white border-2 border-clinical-300;
+  }
+
+  /* Print styles for healthcare compliance documentation */
+  @media print {
+    .no-print {
+      @apply hidden;
+    }
+    
+    body {
+      @apply bg-white text-black;
+    }
+    
+    .print-break-before {
+      page-break-before: always;
+    }
+    
+    .print-break-after {
+      page-break-after: always;
+    }
+  }
+}
+
+/* Healthcare component styles */
+@layer components {
+  /* Executive dashboard cards */
+  .card-executive {
+    @apply bg-white rounded-lg shadow-executive border border-clinical-200 p-6;
+    @apply transition-all duration-200 hover:shadow-xl;
+  }
+
+  .card-medical {
+    @apply bg-white rounded-lg shadow-medical border border-medical-200/20 p-4;
+    @apply transition-all duration-200 hover:shadow-lg hover:border-medical-200/40;
+  }
+
+  .card-health {
+    @apply bg-white rounded-lg shadow-health border border-health-200/20 p-4;
+    @apply transition-all duration-200 hover:shadow-lg hover:border-health-200/40;
+  }
+
+  /* Healthcare status indicators */
+  .status-approved {
+    @apply bg-health-50 text-health-800 border border-health-200 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-denied {
+    @apply bg-danger-50 text-danger-800 border border-danger-200 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-review {
+    @apply bg-alert-50 text-alert-800 border border-alert-200 px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .status-processing {
+    @apply bg-medical-50 text-medical-800 border border-medical-200 px-3 py-1 rounded-full text-sm font-medium;
+    animation: pulse 2s infinite;
+  }
+
+  /* Healthcare metrics display */
+  .metric-positive {
+    @apply text-health-600 font-semibold;
+  }
+
+  .metric-negative {
+    @apply text-danger-600 font-semibold;
+  }
+
+  .metric-neutral {
+    @apply text-clinical-600 font-semibold;
+  }
+
+  /* Executive dashboard buttons */
+  .btn-primary {
+    @apply bg-medical-500 text-white px-4 py-2 rounded-lg font-medium;
+    @apply hover:bg-medical-600 focus:bg-medical-600 focus:ring-2 focus:ring-medical-500/20;
+    @apply disabled:bg-clinical-300 disabled:text-clinical-500 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply bg-clinical-100 text-clinical-700 px-4 py-2 rounded-lg font-medium border border-clinical-300;
+    @apply hover:bg-clinical-200 focus:bg-clinical-200 focus:ring-2 focus:ring-clinical-500/20;
+  }
+
+  .btn-success {
+    @apply bg-health-500 text-white px-4 py-2 rounded-lg font-medium;
+    @apply hover:bg-health-600 focus:bg-health-600 focus:ring-2 focus:ring-health-500/20;
+  }
+
+  .btn-danger {
+    @apply bg-danger-500 text-white px-4 py-2 rounded-lg font-medium;
+    @apply hover:bg-danger-600 focus:bg-danger-600 focus:ring-2 focus:ring-danger-500/20;
+  }
+
+  /* Loading states for real-time updates */
+  .loading-spinner {
+    @apply inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full;
+    animation: spin 1s linear infinite;
+  }
+
+  .loading-pulse {
+    @apply animate-pulse bg-clinical-200 rounded;
+  }
+
+  /* Healthcare progress bars */
+  .progress-bar {
+    @apply w-full bg-clinical-200 rounded-full h-2 overflow-hidden;
+  }
+
+  .progress-fill {
+    @apply h-full bg-gradient-to-r from-medical-500 to-medical-600 rounded-full transition-all duration-500;
+  }
+
+  /* Real-time notification styles */
+  .notification-success {
+    @apply bg-health-50 border border-health-200 text-health-800 p-4 rounded-lg;
+  }
+
+  .notification-warning {
+    @apply bg-alert-50 border border-alert-200 text-alert-800 p-4 rounded-lg;
+  }
+
+  .notification-error {
+    @apply bg-danger-50 border border-danger-200 text-danger-800 p-4 rounded-lg;
+  }
+
+  .notification-info {
+    @apply bg-medical-50 border border-medical-200 text-medical-800 p-4 rounded-lg;
+  }
+}
+
+/* Healthcare utility classes */
+@layer utilities {
+  /* Executive presentation utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-medical-gradient {
+    @apply bg-gradient-to-r from-medical-600 to-medical-500 bg-clip-text text-transparent;
+  }
+
+  .text-health-gradient {
+    @apply bg-gradient-to-r from-health-600 to-health-500 bg-clip-text text-transparent;
+  }
+
+  /* Healthcare data table utilities */
+  .table-hover tr:hover {
+    @apply bg-clinical-50;
+  }
+
+  .table-striped tr:nth-child(even) {
+    @apply bg-clinical-25;
+  }
+
+  /* Cost reduction highlight */
+  .cost-savings {
+    @apply text-health-600 font-bold;
+  }
+
+  .cost-increase {
+    @apply text-danger-600 font-bold;
+  }
+
+  /* Accessibility utilities */
+  .sr-only {
+    @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  /* Healthcare compliance indicators */
+  .compliant {
+    @apply bg-health-100 text-health-800 ring-1 ring-health-600/20;
+  }
+
+  .non-compliant {
+    @apply bg-danger-100 text-danger-800 ring-1 ring-danger-600/20;
+  }
+
+  .pending-compliance {
+    @apply bg-alert-100 text-alert-800 ring-1 ring-alert-600/20;
+  }
+}
+
+/* Animation keyframes */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 50%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+/* Custom scrollbars for healthcare professional appearance */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-clinical-100 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-clinical-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-clinical-400;
+}

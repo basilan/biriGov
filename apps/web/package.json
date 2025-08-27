@@ -1,0 +1,70 @@
+{
+  "name": "@healthcare-ai-governance/web",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Healthcare AI Governance Agent - Executive Dashboard Frontend",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --ext ts,tsx --fix",
+    "type-check": "tsc --noEmit",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.15.0",
+    "react-query": "^3.39.3",
+    "@tanstack/react-query": "^4.32.6",
+    "zustand": "^4.4.1",
+    "axios": "^1.5.0",
+    "lucide-react": "^0.279.0",
+    "recharts": "^2.8.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^1.14.0",
+    "@healthcare-ai/shared": "file:../../packages/shared"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.14",
+    "eslint": "^8.45.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.3",
+    "postcss": "^8.4.27",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.2",
+    "@vitest/ui": "^0.34.2",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/jest-dom": "^6.1.2",
+    "@testing-library/user-event": "^14.4.3",
+    "jsdom": "^22.1.0",
+    "msw": "^1.2.3",
+    "@types/node": "^20.5.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

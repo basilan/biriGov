@@ -1,0 +1,34 @@
+{
+  "name": "healthcare-ai-governance",
+  "version": "1.0.0",
+  "description": "Healthcare AI Governance Agent for automated claims validation",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:web\" \"npm run dev:api\"",
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:api": "npm run dev --workspace=apps/api",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:coverage": "npm run test:coverage --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "type-check": "npm run type-check --workspaces --if-present",
+    "demo": "make demo",
+    "cleanup": "make cleanup"
+  },
+  "dependencies": {
+    "bmad-method": "^4.40.0",
+    "glob": "^11.0.3"
+  },
+  "devDependencies": {
+    "concurrently": "8.2.1",
+    "typescript": "5.2.2"
+  },
+  "engines": {
+    "node": "18.17.1",
+    "npm": "9.8.1"
+  }
+}

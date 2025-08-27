@@ -1,0 +1,32 @@
+# Healthcare AI Governance Agent - Terraform Variables Example
+# Copy this file to terraform.tfvars and customize values for your deployment
+
+# AWS Configuration
+aws_region = "us-west-2"  # Change to your preferred AWS region
+
+# Cost Control
+cost_budget_limit = "50"  # Maximum budget in USD for demonstration
+alert_email       = "your-email@example.com"  # Email for cost and operational alerts
+
+# Environment
+environment = "demo"  # Environment name for resource tagging
+
+# Lambda Configuration
+lambda_memory_size = 1024  # Memory allocation in MB (128-3008)
+lambda_timeout     = 300   # Timeout in seconds (3-900)
+
+# Auto-cleanup Configuration
+auto_cleanup_days = 1  # Number of days before automatic resource cleanup
+
+# Optional: S3 and DynamoDB Configuration
+enable_versioning             = true   # Enable S3 bucket versioning for audit trail
+enable_point_in_time_recovery = true   # Enable DynamoDB point-in-time recovery
+
+# API Gateway Configuration
+api_stage_name = "demo"  # API Gateway stage name
+
+# Example terraform.tfvars content:
+# aws_region        = "us-west-2"
+# cost_budget_limit = "50"
+# alert_email       = "admin@yourcompany.com"
+# environment       = "demo"

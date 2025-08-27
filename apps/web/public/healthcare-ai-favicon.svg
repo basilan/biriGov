@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Healthcare AI Governance Agent Favicon -->
+  <rect width="32" height="32" rx="6" fill="#0ea5e9"/>
+  
+  <!-- Medical cross -->
+  <rect x="14" y="8" width="4" height="16" fill="white" rx="1"/>
+  <rect x="8" y="14" width="16" height="4" fill="white" rx="1"/>
+  
+  <!-- AI circuit pattern -->
+  <circle cx="10" cy="10" r="1" fill="#bae6fd"/>
+  <circle cx="22" cy="10" r="1" fill="#bae6fd"/>
+  <circle cx="10" cy="22" r="1" fill="#bae6fd"/>
+  <circle cx="22" cy="22" r="1" fill="#bae6fd"/>
+  
+  <!-- Connecting lines -->
+  <line x1="10" y1="10" x2="22" y2="10" stroke="#7dd3fc" stroke-width="0.5"/>
+  <line x1="10" y1="22" x2="22" y2="22" stroke="#7dd3fc" stroke-width="0.5"/>
+  <line x1="10" y1="10" x2="10" y2="22" stroke="#7dd3fc" stroke-width="0.5"/>
+  <line x1="22" y1="10" x2="22" y2="22" stroke="#7dd3fc" stroke-width="0.5"/>
+</svg>
