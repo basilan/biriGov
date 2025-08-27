@@ -31,6 +31,23 @@ Build systems **ALWAYS from backend to frontend** using minimal vertical slices:
 3. **Task 4: Frontend Enhancement** (Build UI against working backend)
 4. **Task 5: API Integration** (Optimize frontend-backend communication)
 
+## 🔄 **Implementation Methodology**
+
+### **Backend-First Steel-Thread Implementation**
+All task implementation strategies follow this pattern:
+1. **Backend Core**: Build essential backend functionality first (highest risk)
+2. **Mock Integration**: Use mocks to prove architecture before expensive/complex integrations  
+3. **Real Integration**: Replace mocks incrementally with validated components
+4. **Frontend Harness**: Build UI components to test and exercise backend functionality
+
+### **Risk Mitigation Strategy**
+- **Phase 1**: Minimal working system with mocks (architecture validation)
+- **Phase 2**: Real integrations added incrementally (value validation)
+- **Cost Controls**: Budget monitoring from development day one
+- **Fallback Options**: Demo-ready mock data for cost-free presentations
+
+**Detailed implementation strategies are documented in Epic 1 story tasks.**
+
 ## 👥 **Development Personas**
 
 ### **Primary Developer (You)**

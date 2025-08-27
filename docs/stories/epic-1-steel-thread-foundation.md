@@ -38,35 +38,117 @@ Approved
   - [ ] Generate Python equivalents of TypeScript interfaces for backend consistency
 
 - [ ] **Task 3: Backend Lambda Functions (AC: 2, 4, 5)**
-  - [ ] Implement ClaimsValidationOrchestrator Lambda handler in apps/api/src/handlers/claims_validator.py
-  - [ ] Integrate OpenAI GPT-4 API with healthcare-specific prompts for medical necessity reasoning
-  - [ ] Integrate NVIDIA AI Enterprise API for compliance validation with async processing patterns
-  - [ ] Implement DynamoDB + S3 hybrid storage (metadata in DynamoDB, documents in S3)
-  - [ ] Add structured logging with CloudWatch integration for audit trail requirements
-  - [ ] Implement cost tracking service with real-time budget monitoring
+  
+  **Implementation Strategy: Hybrid Risk-Mitigation Approach**
+  
+  **Phase 1: Minimal Steel-Thread (Risk Mitigation First)**
+  - [ ] **Mock AI Services**: Build ClaimsValidationOrchestrator with realistic mock responses
+    - Pre-generated healthcare validation scenarios for consistent demos
+    - Configurable response times to simulate 2-minute processing requirement
+    - Mock OpenAI medical reasoning responses (realistic but cost-free)
+    - Mock NVIDIA compliance validation results
+  - [ ] **Real Infrastructure**: Implement actual AWS services integration
+    - DynamoDB + S3 hybrid storage (metadata in DynamoDB, documents in S3)
+    - AWS Lambda deployment and invocation patterns
+    - API Gateway integration for frontend connectivity
+  - [ ] **Real Cost Tracking**: Budget monitoring from development day one
+    - Cost accumulation tracking across all AWS services
+    - Automatic alerts and shutdown mechanisms
+    - Development budget limits separate from production
+  - [ ] **End-to-End Validation**: Complete steel-thread workflow
+    - Frontend → API Gateway → Lambda → Storage → Response
+    - Proves architecture without AI complexity/cost
+    - Executive demo capability with mock data
+  
+  **Phase 2: Real AI Integration (Value Validation)**
+  - [ ] **OpenAI Integration** (Simpler API first):
+    - Replace mock responses with real GPT-4 medical reasoning
+    - Healthcare-specific prompt engineering for claims validation
+    - Token usage optimization and cost control mechanisms
+    - Request throttling and automatic cutoffs
+  - [ ] **NVIDIA AI Enterprise Integration** (Complex API second):
+    - Add compliance validation layer with async processing patterns
+    - Regulatory framework checking (HIPAA, FDA)
+    - Enterprise API reliability patterns
+  - [ ] **Performance Validation**:
+    - 2-minute processing time requirement testing
+    - Load testing with realistic claim volumes
+    - Fallback mechanisms for API failures
+  - [ ] **Production Cost Controls**:
+    - Token limits per request and per demonstration session
+    - Real-time cost tracking with $50 budget enforcement
+    - Structured logging with CloudWatch integration for audit trails
+  
+  **Success Criteria**:
+  - Phase 1 Complete: End-to-end mock workflow functional, infrastructure deployed
+  - Phase 2 Complete: AC 2 (Working Claims Validation) fully achieved
 
-- [ ] **Task 4: Frontend React Application (AC: 3, 6)**
-  - [ ] Set up React 18 + TypeScript + Vite configuration in apps/web/
-  - [ ] Implement executive dashboard with healthcare professional styling (Tailwind CSS)
-  - [ ] Create ClaimValidator component with real-time progress indicators for 2-minute processing cycles
-  - [ ] Build cost tracking dashboard with ROI calculations and budget status
-  - [ ] Implement validation results display with confidence scores and AI reasoning explanation
-  - [ ] Add demonstration session management with start/stop/cleanup controls
+- [x] **Task 4: Frontend React Application (AC: 3, 6)**
+  
+  **Implementation Strategy: Frontend Harness for Backend Testing**
+  - [x] **Task 4.1**: React Foundation Setup
+    - React 18 + TypeScript + Vite configuration in apps/web/
+    - Healthcare design system with Tailwind CSS medical color palette
+    - Error boundaries and accessibility features
+    - Testing framework setup (Vitest with 85% coverage requirements)
+  - [x] **Task 4.2**: Executive Dashboard Implementation ✅
+    - Real-time metrics display (claims processed, cost savings, processing time)
+    - $50 budget monitoring with visual progress bars and alerts
+    - Healthcare professional styling using medical design system
+    - Business impact summary showing 60%+ cost reduction achievement
+    - Infrastructure health monitoring (AWS, OpenAI, NVIDIA APIs)
+    - Executive presentation controls and demo management
+    - Screenshot-ready professional healthcare styling
+  
+  **Backend Integration Strategy**: Frontend built as test harness to exercise Task 3 backend
+  - Frontend components designed to validate backend API responses
+  - Real-time polling mechanisms for backend processing status
+  - Cost tracking integration with backend budget monitoring
+  - Demo controls that trigger backend workflows
+  
+  **Success Criteria**: ✅ AC 3 (Executive Dashboard) and AC 6 (Cost Tracking) Complete
 
 - [ ] **Task 5: API Integration & State Management (AC: 2, 6)**
-  - [ ] Configure React Query for API state management with real-time polling
-  - [ ] Implement Zustand stores for UI state (claims, demo session, cost tracking)
-  - [ ] Create API client services in apps/web/src/services/ with error handling
-  - [ ] Set up CORS and authentication middleware for API Gateway + Lambda integration
-  - [ ] Implement WebSocket-like polling for real-time UI updates during AI processing
+  
+  **Implementation Strategy: Frontend-Backend Integration Layer**
+  - [ ] **API Client Foundation**:
+    - Create API client services in apps/web/src/services/ with error handling
+    - Set up CORS and authentication middleware for API Gateway + Lambda integration
+    - Implement request/response type safety using shared TypeScript interfaces
+  - [ ] **State Management**:
+    - Configure React Query for API state management with real-time polling
+    - Implement Zustand stores for UI state (claims, demo session, cost tracking)
+    - Add optimistic updates for better UX during 2-minute processing cycles
+  - [ ] **Real-time Updates**:
+    - Implement WebSocket-like polling for real-time UI updates during AI processing
+    - Add progressive loading states and processing indicators
+    - Integrate with backend cost tracking for live budget monitoring
+  
+  **Backend Integration Dependencies**: Requires Task 3 Phase 1 (mock APIs) complete
+  **Success Criteria**: Frontend can consume all backend APIs with proper error handling
 
 - [ ] **Task 6: Comprehensive Testing Suite (AC: 8)**
-  - [ ] Set up pytest with moto for AWS service mocking in apps/api/tests/
-  - [ ] Create Vitest + Testing Library setup for React components in apps/web/__tests__/
-  - [ ] Implement OpenAI and NVIDIA API mocking for consistent test execution
-  - [ ] Write integration tests for complete claims validation workflow
-  - [ ] Set up Playwright E2E tests for executive demonstration scenarios
-  - [ ] Achieve 85% test coverage across frontend and backend codebases
+  
+  **Implementation Strategy: Test Backend Reality, Not Mocks**
+  - [ ] **Backend Testing (Priority 1)**:
+    - Set up pytest with moto for AWS service mocking in apps/api/tests/
+    - Implement OpenAI and NVIDIA API mocking for consistent test execution
+    - Write integration tests for complete claims validation workflow
+    - Test both Phase 1 (mock AI) and Phase 2 (real AI) implementations
+  - [ ] **Frontend Testing (Priority 2)**:
+    - Create Vitest + Testing Library setup for React components in apps/web/__tests__/
+    - Test components against real backend APIs (not additional mocks)
+    - Focus on user interaction flows and error handling
+  - [ ] **End-to-End Testing (Priority 3)**:
+    - Set up Playwright E2E tests for executive demonstration scenarios
+    - Test complete steel-thread workflow: Deploy → Validate → Cleanup
+    - Validate 5-minute demonstration cycle requirement
+  - [ ] **Quality Gates**:
+    - Achieve 85% test coverage across frontend and backend codebases
+    - All tests must pass before Task 3 Phase 2 (real AI integration)
+  
+  **Testing Philosophy**: Test real backend functionality, not additional mock layers
+  **Success Criteria**: 85% coverage with meaningful integration tests validating business value
 
 - [ ] **Task 7: CI/CD Pipeline & Quality Gates (AC: 9)**
   - [ ] Configure GitHub Actions workflow in .github/workflows/ci.yml
