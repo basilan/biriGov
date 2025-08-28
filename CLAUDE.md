@@ -33,12 +33,39 @@ Build systems **ALWAYS from backend to frontend** using minimal vertical slices:
 
 ## 🔄 **Implementation Methodology**
 
+### **FIRST PRINCIPLE: Test Harness-Driven Steel-Thread** ⚠️
+**CRITICAL REQUIREMENT**: ALL steel-thread implementations MUST include automated test harnesses invoked by Makefile targets:
+
+#### **Test Harness Requirements (NON-NEGOTIABLE)**
+1. **Makefile Integration**: `make test-backend` and `make test-frontend` targets
+2. **Fixture-Based Testing**: Set up realistic test data scenarios
+3. **Happy Path Validation**: Confirm core functionality works end-to-end
+4. **Unhappy Path Validation**: Verify error handling and edge cases
+5. **Both Tiers Coverage**: Backend (API/Lambda) AND frontend (React/UI) test harnesses
+6. **Steel-Thread Validation**: Ensure complete working system at all times
+
+#### **Test Harness Pattern**
+```makefile
+# Backend test harness (required)
+test-backend:
+	@echo "🧪 Running backend steel-thread tests..."
+	@cd tests && python -m pytest test_steel_thread.py::test_happy_path
+	@cd tests && python -m pytest test_steel_thread.py::test_unhappy_path
+
+# Frontend test harness (required)  
+test-frontend:
+	@echo "🧪 Running frontend steel-thread tests..."
+	@cd apps/web && npm run test:steel-thread:happy
+	@cd apps/web && npm run test:steel-thread:unhappy
+```
+
 ### **Backend-First Steel-Thread Implementation**
 All task implementation strategies follow this pattern:
-1. **Backend Core**: Build essential backend functionality first (highest risk)
-2. **Mock Integration**: Use mocks to prove architecture before expensive/complex integrations  
-3. **Real Integration**: Replace mocks incrementally with validated components
-4. **Frontend Harness**: Build UI components to test and exercise backend functionality
+1. **Test Harness Setup**: Create fixture-driven test scenarios FIRST
+2. **Backend Core**: Build essential backend functionality (highest risk)
+3. **Mock Integration**: Use mocks to prove architecture before expensive/complex integrations  
+4. **Real Integration**: Replace mocks incrementally with validated components
+5. **Frontend Harness**: Build UI components to test and exercise backend functionality
 
 ### **Risk Mitigation Strategy**
 - **Phase 1**: Minimal working system with mocks (architecture validation)

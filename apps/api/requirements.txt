@@ -1,30 +1,5 @@
 # Healthcare AI Governance Agent - Backend Dependencies
-# Exact versions per docs/architecture/tech-stack.md
+# Steel-thread with sophisticated mock AI service (no pydantic needed)
 
-# Core Framework
-fastapi==0.103.1
-pydantic==2.3.0
-uvicorn==0.23.2
-
-# AWS Integration
+# AWS Integration (required for DynamoDB)
 boto3==1.28.57
-botocore==1.31.57
-
-# AI Integration
-openai==1.3.0
-httpx==0.24.1
-
-# Data Processing
-python-json-logger==2.0.7
-structlog==23.1.0
-
-# Development & Testing
-pytest==7.4.2
-pytest-asyncio==0.21.1
-moto==4.2.5
-black==23.7.0
-flake8==6.0.0
-mypy==1.5.1
-
-# Lambda Runtime
-awslambdaric==2.0.7

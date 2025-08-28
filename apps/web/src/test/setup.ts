@@ -26,7 +26,7 @@ vi.mock('../config/env', () => ({
 
 // Mock React Router
 vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
+  const actual = await vi.importActual('react-router-dom') as Record<string, unknown>
   return {
     ...actual,
     useNavigate: () => vi.fn(),

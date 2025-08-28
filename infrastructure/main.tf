@@ -213,21 +213,41 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
 }
 
-# Create Lambda deployment package
-data "archive_file" "lambda_zip" {
-  type        = "zip"
-  source_dir  = "../apps/api/src"
-  output_path = "./lambda-deployment.zip"
-  excludes    = ["**/__pycache__", "**/*.pyc", "**/tests"]
+# Add DynamoDB permissions for Lambda
+resource "aws_iam_role_policy" "lambda_dynamodb" {
+  name = "${local.lambda_function_name}-dynamodb-policy"
+  role = aws_iam_role.lambda_execution_role.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "dynamodb:GetItem",
+          "dynamodb:PutItem",
+          "dynamodb:UpdateItem",
+          "dynamodb:DeleteItem",
+          "dynamodb:Query",
+          "dynamodb:Scan"
+        ]
+        Resource = aws_dynamodb_table.claims_table.arn
+      }
+    ]
+  })
 }
+
+# Create Lambda deployment package
+# Use pre-built Lambda deployment package with dependencies
+# Built using: ./build_lambda.sh
 
 # Lambda function
 resource "aws_lambda_function" "claims_validator" {
-  filename         = data.archive_file.lambda_zip.output_path
+  filename         = "./lambda-deployment.zip"
   function_name    = local.lambda_function_name
   role            = aws_iam_role.lambda_execution_role.arn
-  handler         = "handlers.claims_validator.lambda_handler"
-  source_code_hash = data.archive_file.lambda_zip.output_base64sha256
+  handler         = "handlers.claims_validator_simple.lambda_handler"
+  source_code_hash = filebase64sha256("./lambda-deployment.zip")
   runtime         = "python3.11"
   timeout         = var.lambda_timeout
   memory_size     = var.lambda_memory_size

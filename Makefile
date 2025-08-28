@@ -38,6 +38,28 @@ test:
 	npm run test
 	npm run test:coverage
 
+## Steel-Thread Test Harness (REQUIRED BY CLAUDE.MD)
+
+# Backend steel-thread test harness with fixtures (CRITICAL)
+test-backend:
+	@echo "🧪 Running backend steel-thread tests with fixtures..."
+	@cd tests && pip install -q -r requirements.txt
+	@cd tests && python -m pytest test_steel_thread.py::TestSteelThread::test_happy_path_preventive_care -v
+	@cd tests && python -m pytest test_steel_thread.py::TestSteelThread::test_unhappy_path_invalid_claim_data -v
+	@echo "✅ Backend steel-thread validation complete"
+
+# Frontend steel-thread test harness (placeholder - requires web-tier implementation)
+test-frontend:
+	@echo "🧪 Running frontend steel-thread tests..."
+	@echo "⚠️  Frontend test harness not yet implemented"
+	@echo "   Will include: React component testing with API integration"
+	@echo "   Happy path: Dashboard displays claim results correctly"
+	@echo "   Unhappy path: Error states and network failures handled"
+
+# Run both backend and frontend steel-thread tests
+test-steel-thread: test-backend test-frontend
+	@echo "🎯 Complete steel-thread validation finished"
+
 # Type checking across all packages
 type-check:
 	npm run type-check
