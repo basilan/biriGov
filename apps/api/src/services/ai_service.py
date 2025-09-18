@@ -31,16 +31,24 @@ class AIService:
         self.use_mock_ai = settings.USE_MOCK_AI
         self.mock_realistic_delays = settings.MOCK_AI_REALISTIC_DELAYS
         
-        if not self.use_mock_ai:
-            self.openai_client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
-            self.nvidia_base_url = settings.NVIDIA_API_BASE_URL
-            self.nvidia_api_key = settings.NVIDIA_API_KEY
-            self.http_client = httpx.AsyncClient(timeout=120.0)
-        else:
-            # Mock mode - no actual API clients needed
-            self.openai_client = None
-            self.http_client = None
-            logger.info("AI Service initialized in MOCK mode - no API calls will be made")
+        # 🎭 THE CRITIC: NO MOCKS ALLOWED IN PRODUCTION-READY CODE!
+        if self.use_mock_ai:
+            raise ValueError(
+                "🚫 MOCK MODE DETECTED - REAL AI INTEGRATION REQUIRED!\n"
+                "💡 Set USE_MOCK_AI=false in your environment\n"
+                "💡 Ensure OPENAI_API_KEY and NVIDIA_API_KEY are configured\n"
+                "💡 Run 'make check-env' to validate your setup\n"
+                "🎯 Healthcare executives need REAL AI processing, not theater!"
+            )
+        
+        # Initialize REAL AI clients only
+        logger.info("🤖 AI Service initializing with REAL AI integrations...")
+        self.openai_client = AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
+        self.nvidia_base_url = settings.NVIDIA_API_BASE_URL
+        self.nvidia_api_key = settings.NVIDIA_API_KEY
+        self.http_client = httpx.AsyncClient(timeout=120.0)
+        
+        logger.info("✅ AI Service ready with OpenAI GPT-4 and NVIDIA AI Enterprise")
 
     @handle_errors
     @audit_trail("OPENAI_MEDICAL_REASONING")

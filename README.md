@@ -33,8 +33,12 @@ Healthcare AI Claims Validation system designed for **executive demonstrations**
 ```bash
 # Required API keys
 export OPENAI_API_KEY="your-openai-key"
-export NVIDIA_API_KEY="your-nvidia-key"
-export AWS_REGION="us-east-1"
+export NVIDIA_API_KEY="your-nvidia-key"  # Optional - for compliance validation
+
+# AWS credentials (use AWS CLI standard variables)
+export AWS_ACCESS_KEY_ID="your-aws-access-key-id" 
+export AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
+export AWS_DEFAULT_REGION="us-east-1"  # Or AWS_REGION - either works
 ```
 
 ### Installation & Demo

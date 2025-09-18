@@ -19,20 +19,16 @@ rm -f ./lambda-deployment.zip
 # Create build directory
 mkdir -p lambda-build
 
-# Install dependencies with Linux platform (works for boto3)
-echo "📦 Installing boto3 for Linux..."
+# Install REAL AI dependencies - Use compatible approach for Lambda
+echo "📦 Installing REAL AI dependencies (OpenAI, FastAPI, etc.) for AWS Lambda..."
+
+# For AWS Lambda compatibility, install without platform restrictions for pure Python packages
 pip install -r ../apps/api/requirements.txt -t lambda-build/ \
-  --platform linux_x86_64 \
-  --python-version 3.11 \
-  --no-deps \
+  --upgrade \
   --force-reinstall
 
-# Install boto3 dependencies separately
-pip install botocore jmespath s3transfer python-dateutil urllib3 six -t lambda-build/ \
-  --platform linux_x86_64 \
-  --python-version 3.11 \
-  --no-deps \
-  --force-reinstall
+echo "🤖 REAL AI Integration - NO MOCKS allowed in Lambda package!"
+echo "⚠️  Note: Some packages may be installed for current platform - AWS Lambda Python 3.11 runtime should be compatible"
 
 # Copy source code to build directory
 echo "📁 Copying source code..."

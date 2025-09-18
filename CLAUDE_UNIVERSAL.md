@@ -167,6 +167,31 @@ Epic 4: Production Optimization (Widen slice)
 - **Audit Trails**: Logging for governance and debugging
 - **Data Protection**: Industry-appropriate data handling
 
+### **Environment Management Standards (CRITICAL)**
+**Problem**: Environment variable inconsistencies kill projects in production
+**Solution**: Single source of truth with automated validation
+
+#### **Environment Variable Management Pattern**
+```
+1. SINGLE DEFINITION: One authoritative .env.example per workspace
+2. MAKEFILE VALIDATION: check-env target validates ALL required variables  
+3. DOCUMENTATION SYNC: All docs reference same variable names
+4. AUTOMATED TESTING: Environment validation in CI/CD pipeline
+```
+
+#### **Required Environment Standards**
+- **API Keys**: Validate format and accessibility before any operations
+- **Cloud Credentials**: Test authentication before deployment
+- **Configuration**: Fail fast with clear error messages  
+- **Documentation**: Auto-generate env docs from .env.example files
+
+#### **Anti-Pattern Prevention**
+- ❌ NEVER have env vars scattered across 10+ documentation files
+- ❌ NEVER assume developer will "figure out" required keys  
+- ❌ NEVER proceed with operations without env validation
+- ✅ ALWAYS validate environment before any make targets
+- ✅ ALWAYS provide clear setup instructions with error messages
+
 ## 📊 **Framework Integration**
 
 ### **BMAD-METHOD Integration**
