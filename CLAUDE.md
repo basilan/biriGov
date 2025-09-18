@@ -24,6 +24,8 @@ Always validate decisions against:
 3. **Business Value**: Does this support the 60% cost reduction demonstration?
 4. **Risk Mitigation**: Are we tackling unknown/complex aspects first?
 5. **Quality Standards**: Are we maintaining 85% test coverage and type safety?
+6. **Security Integration**: Does this include mandatory vulnerability scanning?
+7. **Professional Automation**: Are we using Makefile targets (NO manual CLI commands)?
 
 ---
 

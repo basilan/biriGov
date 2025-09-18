@@ -1,7 +1,7 @@
 # Healthcare AI Governance Agent - Project Context
 
 ## 🎯 Project Overview
-Healthcare AI Claims Validation system demonstrating 60% cost reduction through AI-powered automation. Executive presentation focus with complete deploy→demonstrate→cleanup lifecycle in <5 minutes, <$50 budget.
+Healthcare AI Claims Validation system demonstrating 60% cost reduction through AI-powered automation. Executive presentation focus with complete deploy→demonstrate→cleanup lifecycle in <5 minutes, <$50 budget. Features mandatory security validation and professional automation standards.
 
 ## 👥 **Project-Specific Development Context**
 
