@@ -31,14 +31,14 @@ Healthcare AI Claims Validation system designed for **executive demonstrations**
 ### Environment Setup
 
 ```bash
-# Required API keys
-export OPENAI_API_KEY="your-openai-key"
-export NVIDIA_API_KEY="your-nvidia-key"  # Optional - for compliance validation
+# Required API keys for real AI integration
+export OPENAI_API_KEY="sk-your-openai-key-here"     # REQUIRED - OpenAI GPT-4
+export NVIDIA_API_KEY="your-nvidia-key"             # OPTIONAL - Enhanced compliance
 
-# AWS credentials (use AWS CLI standard variables)
-export AWS_ACCESS_KEY_ID="your-aws-access-key-id" 
+# Required AWS credentials (configure via 'aws configure' or export directly)
+export AWS_ACCESS_KEY_ID="your-aws-access-key-id"
 export AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
-export AWS_DEFAULT_REGION="us-east-1"  # Or AWS_REGION - either works
+export AWS_REGION="us-east-1"                       # Or AWS_DEFAULT_REGION
 ```
 
 ### Installation & Demo
@@ -50,9 +50,9 @@ cd birigov
 npm install
 
 # Complete demo lifecycle
-make demo                # Deploy infrastructure + application
-make validate-demo       # Verify end-to-end functionality
-make cleanup            # Destroy all resources (cost control)
+make deploy-steel-thread    # Deploy infrastructure + application
+make validate-steel-thread  # Verify end-to-end functionality
+make undeploy-steel-thread  # Destroy all resources (cost control)
 ```
 
 ### Development Mode

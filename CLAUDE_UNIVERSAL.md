@@ -192,6 +192,40 @@ Epic 4: Production Optimization (Widen slice)
 - ✅ ALWAYS validate environment before any make targets
 - ✅ ALWAYS provide clear setup instructions with error messages
 
+### **Pre-Commit Documentation Validation (CRITICAL)**
+**Problem**: Documentation inconsistencies destroy professional credibility and create deployment failures
+**Solution**: Mandatory documentation validation before every GitHub commit
+
+#### **Required Documentation Validation Checklist**
+```
+BEFORE EVERY GIT COMMIT - NO EXCEPTIONS:
+1. README.md environment variables match Makefile check-env requirements
+2. All Makefile target names referenced in README are current and accurate
+3. CLAUDE.md references current project state and methodology
+4. CLAUDE_UNIVERSAL.md standards are being followed
+5. CLAUDE_PROJECT.md context reflects current implementation
+6. All API keys and environment setup instructions are validated
+7. Installation commands and demo lifecycle instructions work
+```
+
+#### **Documentation Validation Pattern**
+```bash
+# MANDATORY before git commit:
+make check-env                    # Verify environment requirements match docs
+make validate-steel-thread       # Confirm system works as documented
+grep -r "make demo" README.md     # Should return ZERO matches (use deploy-steel-thread)
+grep -r "OPENAI_API_KEY.*=" README.md  # Verify API key format matches validation
+```
+
+#### **Git Commit Standards**
+- ❌ NEVER include Claude Code attribution in commit messages:
+  - Remove "🤖 Generated with [Claude Code]" 
+  - Remove "Co-Authored-By: Claude" lines
+- ✅ ALWAYS use clean, professional commit messages focused on technical changes
+- ✅ ALWAYS use conventional commit format: feat:, fix:, docs:, refactor:, etc.
+
+**The Critic's Standard**: *"If the README doesn't match reality, you don't have a professional system - you have theater. Documentation inconsistencies are INEXCUSABLE in production-ready systems."*
+
 ## 📊 **Framework Integration**
 
 ### **BMAD-METHOD Integration**
