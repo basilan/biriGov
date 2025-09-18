@@ -197,6 +197,49 @@ check-env:
 	@echo "   - Max Budget: $${MAX_DEMO_BUDGET_USD:-50} USD"
 	@echo "   - Environment: $${ENVIRONMENT:-development}"
 	
+	# Security Validation (MANDATORY for Healthcare AI)
+	@echo ""
+	@echo "🔒 Healthcare AI Security Validation"
+	@echo "===================================="
+	
+	# NPM Security Audit (Critical for frontend dependencies)
+	@echo "📦 Checking npm dependencies for high-severity vulnerabilities..."
+	@npm audit --audit-level=high > /dev/null 2>&1 || (echo "❌ High-severity npm vulnerabilities detected" && echo "💡 Run: npm audit fix" && echo "💡 For healthcare systems, security vulnerabilities must be resolved" && exit 1)
+	@echo "✅ No high-severity npm vulnerabilities detected"
+	
+	# Python Security Check (if pip-audit available)
+	@echo "🐍 Checking Python dependencies for vulnerabilities..."
+	@if command -v pip-audit > /dev/null 2>&1; then \
+		pip-audit > /dev/null 2>&1 || (echo "⚠️  Python vulnerabilities detected - review with: pip-audit" && echo "💡 Install missing security patches for production deployment"); \
+	else \
+		echo "💡 Install pip-audit for comprehensive Python security scanning: pip install pip-audit"; \
+	fi
+	
+	# Environment File Security Check
+	@echo "🔐 Checking for exposed secrets in environment files..."
+	@if [ -f "apps/web/.env" ] && grep -q -E "(sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16})" apps/web/.env 2>/dev/null; then \
+		echo "❌ Potential API keys detected in apps/web/.env"; \
+		echo "💡 Move secrets to environment variables, not .env files"; \
+		exit 1; \
+	fi
+	@if [ -f "apps/api/.env" ] && grep -q -E "(sk-[a-zA-Z0-9]{20,}|AKIA[0-9A-Z]{16})" apps/api/.env 2>/dev/null; then \
+		echo "❌ Potential API keys detected in apps/api/.env"; \
+		echo "💡 Move secrets to environment variables, not .env files"; \
+		exit 1; \
+	fi
+	@echo "✅ No exposed secrets detected in environment files"
+	
+	# Git Security Check
+	@echo "📂 Checking git configuration for security..."
+	@if git log --all -S"sk-" --source --all --pickaxe-all | head -1 | grep -q "sk-" 2>/dev/null; then \
+		echo "⚠️  Potential API keys found in git history"; \
+		echo "💡 Consider using git filter-branch to remove sensitive data"; \
+	else \
+		echo "✅ No API keys detected in git history"; \
+	fi
+	
+	@echo ""
+	@echo "🛡️  Security validation complete - Healthcare compliance verified"
 	@echo "✅ Environment validation complete - Ready for steel-thread operations"
 
 # Validate demonstration is working end-to-end

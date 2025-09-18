@@ -155,6 +155,33 @@ Epic 4: Production Optimization (Widen slice)
 
 ## 🔬 **Technical Quality Standards**
 
+### **Makefile-Driven Development (MANDATORY)**
+**Problem**: Manual CLI commands create non-reproducible workflows and violate professional automation standards
+**Solution**: ALL operations must go through Makefile entry points
+
+#### **NO MANUAL CLI COMMANDS RULE**
+```
+❌ NEVER run manual CLI commands like:
+   - aws ec2 describe-instances
+   - docker run manual-commands
+   - kubectl apply direct-commands
+   - terraform apply (outside Makefile)
+
+✅ ALWAYS use Makefile targets:
+   - make check-costs           # Instead of manual aws cost commands
+   - make check-infra          # Instead of manual aws resource checks
+   - make deploy-steel-thread  # Instead of manual terraform/aws commands
+   - make validate-steel-thread # Instead of manual testing commands
+```
+
+#### **Professional Automation Standards**
+- **Single Entry Point**: All operations accessible via `make <target>`
+- **Reproducible Workflows**: Any developer can run identical commands
+- **Error Handling**: Proper failure modes and cleanup in Makefiles
+- **Documentation**: All targets documented with clear descriptions
+
+**The Critic's Standard**: *"If it's not in the Makefile, it doesn't exist. Manual CLI commands are the enemy of professional automation and steel-thread methodology."*
+
 ### **TDD-First Development**
 - **85% Minimum Coverage**: Automated testing with validation
 - **Enterprise Standards**: Type hints, linting, security scanning

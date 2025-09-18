@@ -13,7 +13,9 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "zod": "3.22.2"
+    "msw": "2.11.2",
+    "vite": "7.1.6",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/node": "18.17.1",
@@ -21,7 +23,7 @@
     "@typescript-eslint/parser": "6.4.0",
     "eslint": "8.47.0",
     "typescript": "5.2.2",
-    "vitest": "0.34.2"
+    "vitest": "^0.34.6"
   },
   "exports": {
     ".": "./dist/index.js",
