@@ -142,50 +142,14 @@ This implementation demonstrates the steel-thread approach:
 
 ## 🚀 **How to Get Started**
 
-### **Prerequisites**
-```bash
-# Required tools
-node >= 18.0.0
-python >= 3.11
-terraform >= 1.5.0
-aws-cli >= 2.0
-```
+For complete setup instructions, prerequisites, and step-by-step deployment guide, see the **[README.md](../README.md)** file in the repository root.
 
-### **Quick Start Guide**
-```bash
-# Clone the repository
-git clone https://github.com/basilan/biriGov.git
-cd biriGov
-
-# Setup environment
-cp .env.example .env
-# Edit .env with your API keys:
-# OPENAI_API_KEY="sk-your-openai-key-here"
-# AWS_ACCESS_KEY_ID="your-aws-access-key-id"
-# AWS_SECRET_ACCESS_KEY="your-aws-secret-key"
-
-# Install dependencies
-make install
-
-# Validate environment
-make check-env
-
-# Deploy the system
-make deploy-steel-thread
-
-# Run the demo
-make start-frontend
-
-# Cleanup when done
-make undeploy-steel-thread
-```
-
-### **What Each Command Does**
-- `make check-env`: Validates all required environment variables and API keys
-- `make deploy-steel-thread`: Deploys AWS infrastructure and Lambda functions
-- `make start-frontend`: Launches React development server
-- `make test-backend`: Runs comprehensive Python test suite
-- `make undeploy-steel-thread`: Cleans up all AWS resources
+The README includes:
+- Required tools and versions
+- Environment variable setup
+- Complete installation and deployment steps  
+- Troubleshooting common issues
+- Command explanations and usage
 
 ## 🏥 **Healthcare AI Features You Can Extend**
 
