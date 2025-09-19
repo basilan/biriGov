@@ -226,6 +226,22 @@ Epic 4: Production Optimization (Widen slice)
 - **Compliance Focus**: NVIDIA AI Enterprise for regulatory validation
 - **Executive Audience**: Business impact over technical complexity
 
+## 📱 **LinkedIn Reference Implementation Strategy**
+
+### **Project-Specific Posting Guidelines**
+This AI Claims Validation reference implementation follows the LinkedIn posting guidelines in [CLAUDE_UNIVERSAL.md](./CLAUDE_UNIVERSAL.md#linkedin-reference-implementation-posting-guidelines).
+
+**Key messaging for this project:**
+- Position as educational sharing: "learn steel-thread architecture with real business results"
+- Emphasize the systematic initiative (first of 5 AI + DevOps reference implementations)
+- Use real business metrics: $3,639 savings, 64% cost reduction, 2.1s processing time
+- Focus on "clone, run, learn" actionable sharing
+- Cross-reference architecture diagrams and lessons learned posts
+
+**Companion post strategy:**
+1. **Implementation post**: Business results, technical architecture, getting started
+2. **Lessons learned post**: Development practices, professional automation, battle-tested insights
+
 ## 🎯 **Business Context**
 - **Primary Goal**: Demonstrate 60% cost reduction through AI automation
 - **Audience**: Healthcare executives and C-suite stakeholders
